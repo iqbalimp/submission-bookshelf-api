@@ -9,7 +9,7 @@ const addBookHandler = (request, h) => {
     const updatedAt = insertedAt;
     const finished = (pageCount === readPage);
 
-    if (name == null) {
+    if (name === undefined) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal menambahkan buku. Mohon isi nama buku',
@@ -55,7 +55,7 @@ const addBookHandler = (request, h) => {
 };
 
 
-const getAllBookHandler = (request, h) => {
+const getAllBooksHandler = (request, h) => {
     const { name, reading, finished } = request.query;
     let optionalBook = books;
     if (name !== undefined) {
@@ -63,11 +63,11 @@ const getAllBookHandler = (request, h) => {
     }
     
     if (reading !== undefined) {
-        optionalBook = optionalBook.filter((book) => book.reading === !!Number(reading));
+        optionalBook = optionalBook.filter((book) => Number(book.reading) === Number(reading));
     }
     
     if (finished !== undefined) {
-        optionalBook = optionalBook.filter((book) => book.finished === !!Number(finished));
+        optionalBook = optionalBook.filter((book) => book.finished == finished);
     }
     
     const response = h.response({
@@ -115,7 +115,7 @@ const editBookByIdHandler = (request, h) => {
 
     const index = books.findIndex((book) => book.id === id);
 
-    if (name == null) {
+    if (name === undefined) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Mohon isi nama buku',
@@ -186,4 +186,4 @@ const deleteBookByIdHandler = (request, h) => {
 }
 
 
-module.exports = {addBookHandler, getAllBookHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler};  
+module.exports = {addBookHandler, getAllBooksHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler};  
